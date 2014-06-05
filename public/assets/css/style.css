@@ -1,0 +1,128 @@
+
+body{
+    text-align: center;
+    margin: 0 auto;
+
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+a:link{
+    color: black;
+}
+
+a:visited{
+    color: black;
+}
+
+#shadow{
+    width: 100%;
+    height: 100%;
+    margin-top: -20px;
+    display: none;
+    position: fixed;
+    opacity: 0.5;
+    background-color: black;
+    z-index: 50;
+
+
+}
+
+#schedule_edit{
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    margin: 0px 0px 30px -250px;
+    top: 150px;
+    text-align: center;
+    position: fixed;
+    background-color: whitesmoke;
+    z-index: 60;
+        display: none;
+
+}
+
+
+#form_list{
+    text-align: left;
+    margin: 30px 30px 30px 30px;
+}
+
+
+
+.calendar{
+    vertical-align: top; 
+    display: inline-block;
+
+}
+
+td {
+    padding: 8px;
+    border 1px solid #ccc;
+    text-align:center;
+    vertical-align: top;
+    width: 70px;
+    height: 50px;
+    max-height: 50px;
+    overflow: auto;
+    display: inline-block;
+}
+
+
+th{
+    padding: 8px;
+    border 1px solid #ccc;
+    text-align:center;
+    vertical-align: top;
+    width: 70px;
+    background: #eee;
+    height: 20px;
+}
+
+.sun{
+    background: mistyrose;
+}
+
+.sat{
+    background: aqua;
+}
+
+.today{
+    background-color: lime;
+}
+
+.not{
+    background: #f3f3f2;/*白鼠*/
+    font-weight: lighter;
+    font-style: oblique; 
+    font-size: 60%;
+}
+
+.holiday_info {
+    width: 70px;
+    font-size: 11px;
+    color: red;
+}
+
+.auc_columns_info{
+    width: 70px;
+    font-size: 10px;
+    background-color: lavender;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.schedule_info{
+    text-align: left;
+    width: 70px;
+    font-size: 10px;
+    background-color: lightgoldenrodyellow;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
