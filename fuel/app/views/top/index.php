@@ -5,10 +5,11 @@
     <title>calendar</title>
     <?php echo Asset::css('style.css');?>
     <?php echo Asset::js('jquery-2.1.1.min.js');?>
+    <?php echo Asset::js('script.js');?>
     
 </head>
 <body>
-
+<?php //var_dump($schedule);?>
 <div align='center'>
     <h1>かれんだーだよ！</h1>
     <a href="?year_month=<?php echo $prev_year.'-'.$prev_month; ?>">次月</a>

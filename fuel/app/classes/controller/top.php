@@ -19,6 +19,10 @@
  * @package  app
  * @extends  Controller
  */
+
+\Autoloader::add_class('Tool',APPPATH.'vendor/tool/tool.php');
+use \Model\Schedule;
+
 class Controller_Top extends Controller
 {
 
@@ -61,13 +65,17 @@ class Controller_Top extends Controller
         //オークションコラム
         //$auc_columns = $tool->aucColumns();
 
-        //予定
-        //$schedule = $tool->schedulesGet($this_year, $this_month, $calendar_number);
+
+        //$schedule = new Schedule();
+        //$get_schedule = $schedule->get_schedule();
+        //var_dump($get_schedule);
+
+
+        //$hoge = $tool->schedulesGet($this_year, $this_month, $calendar_number);
 
 
 
-        //return Response::forge(View::forge('top/index'));
-        
+
         //viewを作成
         $view = View::forge('top/index');
         
