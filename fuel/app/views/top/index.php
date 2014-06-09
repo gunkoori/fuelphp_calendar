@@ -75,6 +75,18 @@
                         </div>
 
 
+
+                        <!-- オークションコラム -->
+                        <div class="auc_columns_info">
+                            <?php if (isset($auc_columns[$year][$month][$day])):?> 
+                                <?php foreach ($auc_columns[$year][$month][$day] as $value) :?>
+                                    <a href=" <?php echo $value['link'];?> " title = '<?php echo $value['title'];?>' >
+                                        <?php echo $value['title'];?>
+                                    </a><br>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                        </div>
+
                         <!-- 予定の表示 -->
                         <div class="schedule_info">
                             <?php if (isset($schedule[$year][$month][$day])) :?> 

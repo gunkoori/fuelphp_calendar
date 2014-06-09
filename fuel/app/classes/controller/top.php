@@ -64,7 +64,7 @@ class Controller_Top extends Controller
         $calendar = $tool->calendar($this_year, $this_month, $holidays, $calendar_first_day);
         
         //オークションコラム
-        //$auc_columns = $tool->aucColumns();
+        $auc_columns = $tool->aucColumns();
 
         $schedule_get = $tool->schedulesGet($this_year, $this_month, $calendar_number);
         $start_date = $schedule_get['start_date'];
@@ -104,6 +104,7 @@ class Controller_Top extends Controller
         $view->set('calendar_y_m',$calendar_y_m);
         $view->set('combo_y_m',$combo_y_m);
         $view->set('calendar_make',$calendar_make);
+        $view->set('auc_columns',$auc_columns);
         $view->set('calendar',$calendar);
         $view->set('schedule',$schedule);
         return $view;

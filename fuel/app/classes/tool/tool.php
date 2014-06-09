@@ -240,7 +240,7 @@ class Tool_Tool {
     *
     *@return array 年月日に対応したオーくファンコラム情報
     */
-    /*public function aucColumns() {
+    public function aucColumns() {
         $rss ='http://aucfan.com/article/feed/';
         $xml = simplexml_load_file($rss);
         //ファイルがとれなければ終わる
@@ -253,12 +253,12 @@ class Tool_Tool {
             $pub_date = $value->pubDate;
             list($year, $month, $day) = explode('-', date('Y-n-j', strtotime($pub_date)));
             $auc_columns_data[$year][$month][$day][] = array(
-                'title' => $value->title,
-                'link' => $value->link
+                'title' => (string)$value->title,
+                'link' => (string)$value->link
                 );
         }
         return $auc_columns_data;
-    }*/
+    }
 
     /**
     *DBから予定取得
