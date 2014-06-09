@@ -9,7 +9,9 @@
     
 </head>
 <body>
-<?php //var_dump($schedule);?>
+
+
+
 <div align='center'>
     <h1>かれんだーだよ！</h1>
     <a href="?year_month=<?php echo $prev_year.'-'.$prev_month; ?>">次月</a>
@@ -73,6 +75,16 @@
                         </div>
 
 
+                        <!-- 予定の表示 -->
+                        <div class="schedule_info">
+                            <?php if (isset($schedule[$year][$month][$day])) :?> 
+                                <?php foreach ($schedule[$year][$month][$day] as $key => $value) :?> 
+                                    <div class="calendar_schedule" data-scheduleid="<?php echo $key ;?>" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration=''">
+                                        <?php echo $value['title'];?>
+                                    </div>
+                                <?php endforeach;?>
+                            <?php endif;?>
+                        </div>
 
                     </td>
                 <?php endfor;?>
