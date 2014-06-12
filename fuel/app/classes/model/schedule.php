@@ -3,7 +3,27 @@
 class Model_Schedule extends \Model
 {
     public function insert() {
-        
+
+     //SQL生成
+$sql=<<<END
+    INSERT INTO
+         cal_schedules
+     SET
+        start_date="$start_day",
+        end_date="$end_day",
+        schedule_title="$schedule_title",
+        schedule_detail="$schedule_detail",
+        update_at=NOW(),
+        created_at=NOW(),
+        deleted_at=null
+END;
+
+
+         //実行
+        $result = DB::query($sql)->execute();
+
+        return $result->as_array();
+
     }
 
     public function update() {
@@ -31,7 +51,7 @@ $sql=<<<END
 END;
 
         //実行
-        $result = DB::query($sql)->execute();;
+        $result = DB::query($sql)->execute();
 
         return $result->as_array();
 

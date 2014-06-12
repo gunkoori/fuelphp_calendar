@@ -9,15 +9,86 @@
     
 </head>
 <body>
+<div id="shadow"></div>
+<div id="schedule_edit">
+    <div id="form">
+    <h1>予定編集画面</h1>
+    <form action="" name="info" method="POST">
+        <dl id="form_list">
+        <!-- schedule_id用 -->
+        <div id="schedule_id" style="display:none;"></div>
+            <dt>
+                予定開始日
+            </dt>
+            <dd id="start_date">
+                <select name="start_y" class="combo_year_month sch_year">
+                </select>
+                年
+                <select name="start_m" class="combo_year_month sch_month">
+                </select>
+                月
+                <select name="start_d" class="sch_day">
+                </select>
+                日
+                <select name="start_h" class="sch_hour">
+                </select>
+                時
+                <select name="start_i" class="sch_minute">
+                </select>
+                分
+            </dd>
 
+            <dt>
+                予定終了日
+            </dt>
+            <dd id="end_date">
+                <select name="end_y" class="combo_year_month sch_year">
+                </select>
+                年
+                <select name="end_m" class="combo_year_month sch_month">
+                </select>
+                月
+                <select name="end_d" class="sch_day">
+                </select>
+                日
+                <select name="end_h" class="sch_hour">
+                </select>
+                時
+                <select name="end_i" class="sch_minute">
+                </select>
+                分
+            </dd>
+                <span id="error_msg_date"></span>
+            <dt>
+                予定タイトル
+            </dt>
+            <dd>
+                <input type="text" name="sch_title" value="" id="schedule_title">
+            </dd>
+                <span id="error_msg_title"></span>
+            <dt>
+                内容
+            </dt>
+            <dd>
+                <textarea name="sch_plan" value="" id="schedule_plan"></textarea> 
+            </dd>
+                <span id="error_msg_plan"></span>
+        </dl>
+        <input type="hidden" name="nk_token" value="">
+        <button type="button" name="submit" id="submit">保存</button>
+        <button type="button" name="delete" id="delete">削除</button>
+        <button type="button" name="reset" id="reset">キャンセル</button>
+    </form>
+    </div>
+</div>
 
 
 <div align='center'>
     <h1>かれんだーだよ！</h1>
-    <a href="?year_month=<?php echo $prev_year.'-'.$prev_month; ?>">次月</a>
+    <a href="?year_month=<?php echo $prev_year.'-'.$prev_month; ?>">前月</a>
     <a href="?year_month=<?php echo date('Y-n'); ?>">今月</a>
     <a href="?year_month=<?php echo $next_year.'-'.$next_month; ?>">次月</a>
-    <form action='' method='get'>
+    <form  action="" method='get'>
         <select name='year_month'>
             <?php foreach ($combo_y_m as $value):?>
                 <?php if ($value['year'] == $this_year && $value['month'] == $this_month):?>

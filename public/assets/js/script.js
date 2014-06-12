@@ -4,16 +4,16 @@
 */
 resister_flg =false;
 
-/*function sessionSet(){
+function sessionSet(){
     $.ajax({
         async:false,
-        url: 'session.php'
+        url: '/top/session_check'
     }).done(function(data){
         $('input[name="nk_token"]').val(data);
     }).fail(function(){
         alert('接続に失敗しました（Ajax/session）');
     })
-}*/
+}
 
 $(function(){
     $('.combo_year_month').change(function(){
@@ -111,7 +111,7 @@ $(function(){
                     console.log(token);
                     $.ajax({
                         type: 'post',
-                        url: 'cal_sql.php',
+                        url: '/ajax/insert',
                         data: {
                             'schedule_id'   : schedule_id,
                             'schedule_title': sch_title,

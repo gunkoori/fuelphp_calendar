@@ -33,17 +33,18 @@ class Controller_Top extends Controller
 	 * @return  Response
 	 */
 	public function action_index()
-	{
+    {
+
         $tool = new Tool_Tool();
         //表示するカレンダー数
         $calendar_number = $tool->calendarNumber();
-        
+
         //カレンダーの先頭の曜日(0〜6)
         $calendar_first_day = $tool->calendarIndex();
-        
+
         //曜日設定
         $weekday_index = $tool->weekdaySet($calendar_first_day);
-        
+
         //年月日情報
         list($this_year, $this_month, $prev_year, $prev_month, $next_year, $next_month) = $tool->yearMonth();
         //祝日情報
@@ -60,9 +61,9 @@ class Controller_Top extends Controller
         foreach ($calendar_y_m as $value) {
             array_push($calendar_make, $tool->calendar($value['calendar_y'], $value['calendar_m'], $holidays, $calendar_first_day));
         }
-        
+
         $calendar = $tool->calendar($this_year, $this_month, $holidays, $calendar_first_day);
-        
+
         //オークションコラム
         $auc_columns = $tool->aucColumns();
 
@@ -73,7 +74,8 @@ class Controller_Top extends Controller
 
         $schedule_data = new Model_Schedule();
         $get_schedule = $schedule_data->get_schedule($start_date, $end_date);
-        
+
+        $schedule = null;
         foreach ($get_schedule as $key => $value) {
             $start_date = $tool->explode_string($value['start_date']);
             $end_date = $tool->explode_string($value['end_date']);
@@ -84,12 +86,24 @@ class Controller_Top extends Controller
             $day = $tool->sprintf_str($day);
             $schedule[$year][$month][$day][$value['schedule_id']]['title'] = $value['schedule_title'];
             $schedule[$year][$month][$day][$value['schedule_id']]['detail'] = $value['schedule_detail'];
-
         }
 
-        //viewを作成
-        $view = View::forge('top/index');
-        
+        Debug::Dump(Input::get('year_month'));
+        //$get_parameter = Input::get('year_month');
+        //if (isset($get_parameter)) {
+            //$url_get = explode('-', $get_parameter);
+            //$view = View::forge('top/index', $url_get);
+            //$view = View::forge("top/index/$url_get[0]/$url_get[1]");
+            //$view = new View();
+            //$view = View::forge();
+            //$view->set_filename("top/index/$url_get[0]/$url_get[1]");
+            //$view->set_filename("top/index/$get_parameter");
+        //}
+        //else {
+            //viewを作成
+            $view = View::forge('top/index');
+        //}
+
         //viewに変数を割り当てる
         $view->set('calendar_number',$calendar_number);
         $view->set('calendar_first_day',$calendar_first_day);
@@ -108,6 +122,23 @@ class Controller_Top extends Controller
         $view->set('calendar',$calendar);
         $view->set('schedule',$schedule);
         return $view;
-	}
+    }
+
+    public function action_ym()
+    {
+        $ym = 2014-07;
+        //var_dump(Input::get('year_month'));
+    }
+
+    public function action_session_check()
+    {
+        session_start();
+        // $session_token = hash('sha256', session_id());
+        //$session_token = openssl_random_pseudo_bytes(16);
+        $session_token = md5(uniqid(rand(), true));
+        $_SESSION['nk_token'] = $session_token;
+        return $session_token;
+    }
+
 
 }

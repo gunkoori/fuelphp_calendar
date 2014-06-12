@@ -49,7 +49,7 @@ class Tool_Tool {
         //$_getで取得
         $year_month = isset($_GET['year_month']) ? $_GET['year_month'] : date('Y-n');
 
-        $timestamp  = strtotime($year_month.'-1'); 
+        $timestamp  = strtotime($year_month.'-1');
 
         if ($timestamp === false) {
             $timestamp = time();
@@ -78,13 +78,13 @@ class Tool_Tool {
     /**
     *年と月の入ったコンボボックス（前後一年分）の年月を返す
     *
-    *@param int $year 
+    *@param int $year
     *@return array 前後一年分の年月
     */
     public function comboBoxMake($year){
         $k = 0;
         $sch_y_m = array();
-        for ($i = -1; $i <= 1; $i++) { 
+        for ($i = -1; $i <= 1; $i++) {
             for ($j=1; $j <= 12; $j++) { 
                 $sch_y_m[$k]['year']  = date('Y', mktime(0, 0, 0, $j, 1, $year + $i));
                 $sch_y_m[$k]['month'] = date('n', mktime(0, 0, 0, $j, 1, $year + $i));
@@ -114,7 +114,7 @@ class Tool_Tool {
         $day_count = abs($weekday_count - $calendar_first_day) % 7;
         //前月の日付を入れる
 
-        for ($i = 0; $i < $day_count; $i++) { 
+        for ($i = 0; $i < $day_count; $i++) {
             $cell_count = $day_count - 1 - $i;
             $week[$year][$month][$week_number][$cell_count]['y'] = date('Y', mktime(0, 0, 0, $month, -$i, $year));
             $week[$year][$month][$week_number][$cell_count]['m'] = date('n', mktime(0, 0, 0, $month, -$i, $year));
@@ -287,7 +287,7 @@ class Tool_Tool {
     *
     *@return なし
     */
-    /*
+    
     public function sessionReset(){
         $_SESSION = array();
         if (isset($_COOKIE[session_name()])) {
@@ -295,7 +295,7 @@ class Tool_Tool {
         }
         session_destroy();
         return;
-    }*/
+    }
 
     /**
     *XSS対策
@@ -314,7 +314,7 @@ class Tool_Tool {
     *
     *@return なし
     */
-    /*
+    
     public function tokenCheck(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($_POST['token']!== $_SESSION['token']) {
@@ -323,7 +323,7 @@ class Tool_Tool {
         }
         return;
     }
-     */
+    
 
     /**
     *表示するカレンダーの数から、月の計算に関するカウントを返す
