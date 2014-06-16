@@ -2,19 +2,7 @@
 
 class Model_Schedule extends \Model
 {
-    public function insert($start_day, $end_day, $schedule_title, $schedule_detail/*$post_data*/) {
-        //Debug::dump($_POST);
-       /* 
-        $start_day = null;
-        $end_day = null; 
-        $schedule_title = null; 
-        $schedule_detail = null;
-        */ 
-        /*    $start_day = $post_data['start_date'];
-            $end_day = $post_data['end_date'];
-            $schedule_title = $post_data['schedule_title'];
-            $schedule_detail = $post_data['schedule_detail'];
-        */
+    public function insert($start_day, $end_day, $schedule_title, $schedule_detail) {
 
      //SQL生成
 $sql=<<<END
@@ -33,11 +21,10 @@ END;
 
          //実行
         $result = DB::query($sql)->execute();
-        return $result->as_array();
+        return $result;
     }
 
     public function update() {
-    
     }
 
     public function get_schedule($start_date, $end_date) {

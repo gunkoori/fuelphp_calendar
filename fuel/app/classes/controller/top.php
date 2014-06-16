@@ -107,25 +107,9 @@ class Controller_Top extends Controller
                 $insert = $model_schedule->insert($start_day, $end_day, $schedule_title, $schedule_detail);
             }
         }
-        var_dump($post_data);
 
-        //$get_parameter = Input::get('year_month');
-        //if (isset($get_parameter)) {
-            //$url_get = explode('-', $get_parameter);
-            //$view = View::forge('top/index', $url_get);
-            //$view = View::forge("top/index/$url_get[0]/$url_get[1]");
-            //$view = new View();
-            //$view = View::forge();
-            //$view->set_filename("top/index/$url_get[0]/$url_get[1]");
-            //$view->set_filename("top/index/$get_parameter");
-        //}
-        //else {
-            //viewを作成
-            $view = View::forge('top/index');
-        //}
+        $view = View::forge('top/index');
 
-        //$this->template->content = View::forge('content');
-        //$view = $this->template->content;
 
         //viewに変数を割り当てる
         $view->set('calendar_number',$calendar_number);
@@ -133,7 +117,7 @@ class Controller_Top extends Controller
         $view->set('weekday_index',$weekday_index);
         $view->set('this_year',$this_year);
         $view->set('this_month',$this_month);
-        $view->SET('prev_year',$prev_year);
+        $view->set('prev_year',$prev_year);
         $view->set('prev_month',$prev_month);
         $view->set('next_year',$next_year);
         $view->set('next_month',$next_month);
@@ -148,7 +132,7 @@ class Controller_Top extends Controller
         return $view;
     }
 
-    public function action_ym()
+    public function action_ym(/*ここに*/)
     {
         $get_parameter = Input::post('year_month');
         Response::redirect('ym/'.$get_parameter, 'refresh');

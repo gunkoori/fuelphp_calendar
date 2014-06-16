@@ -6,9 +6,12 @@ return array(
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hoge'),
 
     '_root_' => 'top/index',
+    //'ym/(:ym)' => 'top/index',
 
     //'top/(:num)/(:num)?' => array('top/index', 'year_month' => "$1-$2"),
     //'top/:year_month' => array('top/index', 'year_month' => "$1"),
+    
+    'ym/(:year_month)' => array('top/index', 'year_month' => "$1"),
 
 
     //'top/(:num)?' => 'top/index'
