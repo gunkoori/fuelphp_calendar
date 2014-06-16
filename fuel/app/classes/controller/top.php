@@ -36,6 +36,7 @@ class Controller_Top extends Controller
     {
 
         $tool = new Tool_Tool();
+
         //表示するカレンダー数
         $calendar_number = $tool->calendarNumber();
 
@@ -47,6 +48,7 @@ class Controller_Top extends Controller
 
         //年月日情報
         list($this_year, $this_month, $prev_year, $prev_month, $next_year, $next_month) = $tool->yearMonth();
+
         //祝日情報
         $holidays = $tool->holidays($this_year, $this_month, $calendar_number);
 
@@ -67,13 +69,14 @@ class Controller_Top extends Controller
         //オークションコラム
         $auc_columns = $tool->aucColumns();
 
+        //開始日と終了日
         $schedule_get = $tool->schedulesGet($this_year, $this_month, $calendar_number);
         $start_date = $schedule_get['start_date'];
         $end_date   = $schedule_get['finish_date'];
 
-
-        $schedule_data = new Model_Schedule();
-        $get_schedule = $schedule_data->get_schedule($start_date, $end_date);
+        //DBに登録した予定取得
+        $model_schedule = new Model_Schedule();
+        $get_schedule = $model_schedule->get_schedule($start_date, $end_date);
 
         $schedule = null;
         foreach ($get_schedule as $key => $value) {
@@ -88,7 +91,24 @@ class Controller_Top extends Controller
             $schedule[$year][$month][$day][$value['schedule_id']]['detail'] = $value['schedule_detail'];
         }
 
-        Debug::Dump(Input::get('year_month'));
+
+        $post_data = Input::post();
+        $start_day = isset($post_data['start_date']) ? $post_data['start_date']:null;//2014-04-01
+        $end_day = isset($post_data['end_date']) ? $post_data['end_date']:null;//2014-04-01
+        $schedule_title = isset($post_data['schedule_title']) ? $post_data['schedule_title']:null;
+        $schedule_detail = isset($post_data['schedule_detail']) ? $post_data['schedule_detail']:null;
+
+        if (isset($post_data)) {
+            if(isset($post_data['start_date']) && isset($post_data['end_date']) && isset($post_data['schedule_title']) && isset($post_data['schedule_detail'])) {
+                $start_day = $post_data['start_date'];
+                $end_day = $post_data['end_date'];
+                $schedule_title = $post_data['schedule_title'];
+                $schedule_detail = $post_data['schedule_detail'];
+                $insert = $model_schedule->insert($start_day, $end_day, $schedule_title, $schedule_detail);
+            }
+        }
+        var_dump($post_data);
+
         //$get_parameter = Input::get('year_month');
         //if (isset($get_parameter)) {
             //$url_get = explode('-', $get_parameter);
@@ -104,13 +124,16 @@ class Controller_Top extends Controller
             $view = View::forge('top/index');
         //}
 
+        //$this->template->content = View::forge('content');
+        //$view = $this->template->content;
+
         //viewに変数を割り当てる
         $view->set('calendar_number',$calendar_number);
         $view->set('calendar_first_day',$calendar_first_day);
         $view->set('weekday_index',$weekday_index);
         $view->set('this_year',$this_year);
         $view->set('this_month',$this_month);
-        $view->set('prev_year',$prev_year);
+        $view->SET('prev_year',$prev_year);
         $view->set('prev_month',$prev_month);
         $view->set('next_year',$next_year);
         $view->set('next_month',$next_month);
@@ -121,13 +144,14 @@ class Controller_Top extends Controller
         $view->set('auc_columns',$auc_columns);
         $view->set('calendar',$calendar);
         $view->set('schedule',$schedule);
+
         return $view;
     }
 
     public function action_ym()
     {
-        $ym = 2014-07;
-        //var_dump(Input::get('year_month'));
+        $get_parameter = Input::post('year_month');
+        Response::redirect('ym/'.$get_parameter, 'refresh');
     }
 
     public function action_session_check()

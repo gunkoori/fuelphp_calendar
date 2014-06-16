@@ -9,11 +9,12 @@
     
 </head>
 <body>
+
 <div id="shadow"></div>
 <div id="schedule_edit">
     <div id="form">
     <h1>予定編集画面</h1>
-    <form action="" name="info" method="POST">
+    <form  name="info" >
         <dl id="form_list">
         <!-- schedule_id用 -->
         <div id="schedule_id" style="display:none;"></div>
@@ -70,7 +71,7 @@
                 内容
             </dt>
             <dd>
-                <textarea name="sch_plan" value="" id="schedule_plan"></textarea> 
+                <textarea name="sch_plan" value="" id="schedule_detail"></textarea> 
             </dd>
                 <span id="error_msg_plan"></span>
         </dl>
@@ -88,7 +89,11 @@
     <a href="?year_month=<?php echo $prev_year.'-'.$prev_month; ?>">前月</a>
     <a href="?year_month=<?php echo date('Y-n'); ?>">今月</a>
     <a href="?year_month=<?php echo $next_year.'-'.$next_month; ?>">次月</a>
-    <form  action="" method='get'>
+
+    
+
+    <form action="top/ym" method='post'>
+<?php $_POST['year_month'] = '';?>
         <select name='year_month'>
             <?php foreach ($combo_y_m as $value):?>
                 <?php if ($value['year'] == $this_year && $value['month'] == $this_month):?>
@@ -177,7 +182,5 @@
         </tbody>
     </table>
 <?php endforeach ;?>
-
-
 </body>
 </html>

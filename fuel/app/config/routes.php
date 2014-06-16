@@ -11,5 +11,5 @@ return array(
     //'top/:year_month' => array('top/index', 'year_month' => "$1"),
 
 
-    'top/(:num)?' => 'top/index'
+    //'top/(:num)?' => 'top/index'
 );

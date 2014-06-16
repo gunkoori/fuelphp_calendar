@@ -15,14 +15,18 @@ function sessionSet(){
     })
 }
 
+
+//ポップアップのセレクトボックス
 $(function(){
     $('.combo_year_month').change(function(){
         //開始と終了どちらのコンボボックスか
-        var dd_id = $(this).parent('dd').attr('id');
+        var dd_id = $(this).parent('dd').attr('id');//ddタグのid
+
         //selectedされている値を取得
         var year  = $('#'+dd_id+' .sch_year option:selected').val();
         var month = $('#'+dd_id+' .sch_month option:selected').val();
         var day   = $('#'+dd_id+' .sch_day option:selected').val();
+
         //日のoptionを取得
         var day_option = $('#'+dd_id+' .sch_day');
 
@@ -47,22 +51,26 @@ $(function(){
     })
 })
 
+
+//ポップアップのsubmit押したとき
 $(function(){
      $('#submit').click(function(){
+         //バリデート
         var error_count = 0;
-        var sch_title = $('input[name="sch_title"]').val();
-        if (sch_title == '') {
+        var schedule_title = $('input[name="sch_title"]').val();
+
+        if (schedule_title == '') {
             $('#error_msg_title').text('＊タイトルは入力必須');
             error_count++;
-        } else if (sch_title.length > 45) {
+        } else if (schedule_title.length > 45) {
             $('#error_msg_title').text('＊タイトルは４５字以内');
             error_count++;
         } else {
             $('#error_msg_title').text('');
         }
 
-        var sch_plan = $('textarea[name="sch_plan"]').val();
-        if (sch_plan == '') {
+        var schedule_detail = $('textarea[name="sch_plan"]').val();
+        if (schedule_detail == '') {
             $('#error_msg_plan').text('＊内容は入力必須');
             error_count++;
         } else {
@@ -83,7 +91,7 @@ $(function(){
 
         var start_date = new Date(start_y, start_m, start_d, start_h, start_i);
         var end_date   = new Date(end_y, end_m, end_d, end_h, end_i);
-
+        
         var start_ymd = start_y +'-'+ start_m +'-'+ start_d+'-'+start_h +'-'+ start_i;
         var end_ymd = end_y +'-'+ end_m +'-'+ end_d+'-'+ end_h +'-'+ end_i;
 
@@ -108,34 +116,38 @@ $(function(){
             if (flg) {
                 var token = $('input[name="nk_token"]').val();
                 $(function(){
-                    console.log(token);
+                    //console.log(token);
                     $.ajax({
                         type: 'post',
-                        url: '/ajax/insert',
+                        url: 'top/index',
                         data: {
-                            'schedule_id'   : schedule_id,
-                            'schedule_title': sch_title,
-                            'schedule_plan' : sch_plan,
-                            'schedule_start': start_ymd,
-                            'schedule_end'  : end_ymd,
-                            'command'       : 'resister',
-                            'nk_token':token
+                            'start_date'   : start_ymd,
+                            'end_date': end_ymd,
+                            'schedule_title' : schedule_title,
+                            'schedule_detail': schedule_detail,
+                            //'nk_token':token
                         }
                     }).done(function(data){
+                        
                         console.log(data);
+                        $('#schedule_edit').fadeOut();
+                        $('#shadow').fadeOut();
+
+                        /*
                         var schedule_array = JSON.parse(data); 
                         if (typeof schedule_array['error_msg'] != undefined) {
                             resister_flg = true;
                         }
-                    }).always(function(data){
+                        */
+                    })/*.always(function(data){
                         if (resister_flg) {
                         //'保存'連打対応：flgをfalseに
                         flg = false;
                         $(location).attr('href', '');
                         }
                     }).fail(function(data){
-                        alert('接続に失敗しました');
-                    })
+                        alert('1234接続に失敗しました');
+                    })*/
                 })
             }
         }
