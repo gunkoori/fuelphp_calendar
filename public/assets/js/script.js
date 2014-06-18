@@ -141,6 +141,9 @@ $(function(){
                             resister_flg = true;
                         }
 
+                        //ページ読み込み
+                        $('#shadow').load('top/index');
+
                     }).always(function(data){
 
                         if (resister_flg) {
@@ -175,10 +178,13 @@ $(function(){
                 }
 
             }).done(function(data){
-                var schedule_array = data; 
+                var schedule_array = data;
                 if (typeof schedule_array.error_msg != undefined) {
                     resister_flg = true
                 }
+
+                //ページの読み込み
+                $('#shadow').load('top/index');
 
             }).always(function(data){
                 if (resister_flg) {
