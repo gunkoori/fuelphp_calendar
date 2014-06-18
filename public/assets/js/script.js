@@ -9,7 +9,6 @@ function sessionSet(){
         async:false,
         url: '/top/session_check'
     }).done(function(data){
-        $('input[name="nk_token"]').val(data);
     }).fail(function(){
         alert('接続に失敗しました（Ajax/session）');
     })
@@ -55,11 +54,11 @@ $(function(){
 //ポップアップのsubmit押したとき
 $(function(){
      $('#submit').click(function(){
+
          //バリデート
         var error_count = 0;
         var schedule_title = $('input[name="sch_title"]').val();
         var schedule_id = $(this).data('scheduleid');
-
 
 
         if (schedule_title == '') {
@@ -94,7 +93,7 @@ $(function(){
 
         var start_date = new Date(start_y, start_m, start_d, start_h, start_i);
         var end_date   = new Date(end_y, end_m, end_d, end_h, end_i);
-        
+
         var start_ymd = start_y +'-'+ start_m +'-'+ start_d+'-'+start_h +'-'+ start_i;
         var end_ymd = end_y +'-'+ end_m +'-'+ end_d+'-'+ end_h +'-'+ end_i;
 
@@ -107,52 +106,53 @@ $(function(){
 
         //schedule_idを取得
         var schedule_id = $('#schedule_id').text();
+
         //'保存'連打対応：一回目ならflgをtrueに
         if (typeof flg == "undefined") {
             flg = true;
             var resister_flg =false;
         }
+
         //エラーチェック
         if (error_count > 0) {
             return false;
         } else {
             if (flg) {
-                var token = $('input[name="nk_token"]').val();
                 $(function(){
-                    //console.log(token);
                     $.ajax({
                         type: 'post',
                         url: 'top/index',
                         data: {
-                            'start_date'   : start_ymd,
-                            'end_date': end_ymd,
+                            'start_date'     : start_ymd,
+                            'end_date'       : end_ymd,
                             'schedule_title' : schedule_title,
                             'schedule_detail': schedule_detail,
-                            'schedule_id' : schedule_id,
-                            'command'       : 'resister',
-                            //'nk_token':token
+                            'schedule_id'    : schedule_id,
+                            'command'        : 'register',
                         }
+
                     }).done(function(data){
-                        
-                        console.log(data);
+
                         $('#schedule_edit').fadeOut();
                         $('#shadow').fadeOut();
 
-                       //エラーが... 
-                        var schedule_array = JSON.parse(data); 
-                        if (typeof schedule_array['error_msg'] != undefined) {
+                        var schedule_array = data;
+                        if (typeof schedule_array.error_msg != undefined) {
                             resister_flg = true;
                         }
-                        
-                    })/*.always(function(data){
+
+                    }).always(function(data){
+
                         if (resister_flg) {
-                        //'保存'連打対応：flgをfalseに
-                        flg = false;
-                        $(location).attr('href', '');
+                            //'保存'連打対応：flgをfalseに
+                            flg = false;
+                            $(location).attr('href', '');
                         }
+
                     }).fail(function(data){
                         alert('1234接続に失敗しました');
-                    })*/
+                    })
+
                 })
             }
         }
@@ -160,36 +160,42 @@ $(function(){
 })
 
 
+//削除ボタン押したとき
 $(function(){
     $('#delete').click(function(){
         var sch_id = $('#schedule_id').text();
-        var token = $('input[name="nk_token"]').val();
+
         $(function(){
             $.ajax({
                 type: 'post',
                 url: 'top/index',
                 data: {
                     'schedule_id' : sch_id,
-                    //'nk_token' : token,
                     'command' : 'delete'
                 }
+
             }).done(function(data){
-                var schedule_array = JSON.parse(data); 
-                if (typeof schedule_array['error_msg'] != undefined) {
+                var schedule_array = data; 
+                if (typeof schedule_array.error_msg != undefined) {
                     resister_flg = true
                 }
+
             }).always(function(data){
                 if (resister_flg) {
                     $(location).attr('href', '');
                 } else {
                     alert('接続に失敗しました');
                 }
+
             }).fail(function(data){
                 alert('接続に失敗しました');
             })
+
         })
+
     })
 })
+
 
 $(function(){
     $('#shadow').click(function(){
@@ -197,6 +203,7 @@ $(function(){
         $('#shadow').fadeOut();
     })
 })
+
 
 $(function(){
     $('#reset').click(function(){
@@ -216,8 +223,9 @@ $(function(){
     $('.day').click(function(){
         formReset();
         //sessionにワンタイムトークンセット
-        sessionSet();
+
         $('#delete').css('display','none');
+
         //tableから何年何月何日か取得
         var get_date = $(this).data('dateinfo');
         var sch_date = get_date.split('-');
@@ -330,14 +338,13 @@ function comboBoxMake(year, month, day, hour, minute, dd_id){
 $(function(){
     $('.calendar_schedule').click(function(){
         formReset();
-        sessionSet();
-        //data-scheduleidを取得
+
+        //scheduleidを取得
         var schedule_id = $(this).data('scheduleid');
 
         //div schedule_id内にschedule_idを書き込む
         $('#schedule_id').text(schedule_id);
 
-        var token = $('input[name="nk_token"]').val();
 
         $(function(){
             $.ajax({
@@ -346,15 +353,14 @@ $(function(){
                 data: {
                     'schedule_id' : schedule_id,
                     'command' : 'select',
-                    //'nk_token' : token
                 },
-                dataType : 'json',
+                dataType : 'json'
+
             }).done(function(data){
                 var schedule_array = data;
-       console.log(schedule_array.schedule_id);
                 if (typeof schedule_array['error_msg'] == "undefined") {
                     var start_date = new Date(schedule_array.start_date);
-                    
+
                     var start_y = start_date.getFullYear(),
                         start_m = start_date.getMonth() + 1,
                         start_d = start_date.getDate(),
@@ -371,15 +377,19 @@ $(function(){
                     //コンボボックス作成
                     comboBoxMake(start_y, start_m, start_d, start_h, start_i, 'start_date');
                     comboBoxMake(end_y, end_m, end_d, end_h, end_i, 'end_date');
+
                     //inputにタイトル、内容を書き込む
-                    $('#schedule_title').val(schedule_array['schedule_title']);
-                    $('#schedule_detail').val(schedule_array['schedule_detail']);
-                    } else {
-                        alert(schedule_array['error_msg']);
+                    $('#schedule_title').val(schedule_array.schedule_title);
+                    $('#schedule_detail').val(schedule_array.schedule_detail);
+
+                } else {
+                    alert(schedule_array.error_msg);
                 }
+
             }).fail(function(){
                 alert('接続に失敗しました');
             })
+
         })
         $('#schedule_edit').fadeIn();
         $('#shadow').fadeIn();
