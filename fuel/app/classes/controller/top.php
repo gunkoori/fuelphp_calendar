@@ -100,19 +100,20 @@ class Controller_Top extends Controller
         $schedule_detail = isset($post_data['schedule_detail']) ? $post_data['schedule_detail']:null;
         $schedule_id = isset($post_data['schedule_id']) ? $post_data['schedule_id']:null;
 
-
-        //登録する
+        //登録、編集する
         if (isset($post_data)) {
+
+            //全ての値が埋まっているとき
             if(isset($post_data['start_date']) && isset($post_data['end_date']) && isset($post_data['schedule_title']) && isset($post_data['schedule_detail'])) {
                 $start_day = $post_data['start_date'];
                 $end_day = $post_data['end_date'];
                 $schedule_title = $post_data['schedule_title'];
                 $schedule_detail = $post_data['schedule_detail'];
-                if (isset($schedule_id)) {
+
+                if ($schedule_id) {//schedule_idを受け取っていれば編集
                     $update = $model_schedule->update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id);
                 }
-                else {
-                    $update = $model_schedule->update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id);
+                else {//登録
                     $insert = $model_schedule->insert($start_day, $end_day, $schedule_title, $schedule_detail);
                 }
             }

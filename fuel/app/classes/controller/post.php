@@ -11,7 +11,8 @@ Class Controller_Post extends Controller_Rest
     }
 
 
-     public function action_schedule($schedule_id = 1) {
+    public function action_schedule($schedule_id = 1)
+    {
          $schedule_id = Input::post('schedule_id');
 
 $sql=<<<END

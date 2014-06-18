@@ -129,7 +129,7 @@ $(function(){
                             'schedule_title' : schedule_title,
                             'schedule_detail': schedule_detail,
                             'schedule_id' : schedule_id,
-                            'command'       : 'resister'
+                            'command'       : 'resister',
                             //'nk_token':token
                         }
                     }).done(function(data){
@@ -167,10 +167,10 @@ $(function(){
         $(function(){
             $.ajax({
                 type: 'post',
-                url: 'cal_sql.php',
+                url: 'top/index',
                 data: {
                     'schedule_id' : sch_id,
-                    'nk_token' : token,
+                    //'nk_token' : token,
                     'command' : 'delete'
                 }
             }).done(function(data){

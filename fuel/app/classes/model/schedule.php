@@ -6,10 +6,9 @@ class Model_Schedule extends \Model
     /*
      *
      *
-     *
-     *
      * */
-    public function insert($start_day, $end_day, $schedule_title, $schedule_detail) {
+    public function insert($start_day, $end_day, $schedule_title, $schedule_detail)
+    {
 
      //SQL生成
 $sql=<<<END
@@ -31,14 +30,14 @@ END;
         return $result;
     }
 
-    //編集
     /*
-     *
+     *編集
      *
      *
      *
      * */
-    public function update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id) {
+    public function update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id)
+    {
 
 $sql=<<<END
     UPDATE
@@ -59,13 +58,38 @@ END;
         return $result;
     }
 
+    /*削除
+     *
+     *
+     *
+     */
+    public function delete($schedule_id)
+    {
+
+$sql=<<<END
+    UPDATE
+         cal_schedules
+     SET
+         update_at=NOW(),
+         deleted_at=NOW()
+     WHERE
+        schedule_id="$schedule_id"
+END;
+
+
+        //実行
+        $result = DB::query($sql)->execute();
+        return $result;
+    }
+
     //カレンダーに表示する予定の取得
     /*
      *
      *
      *
      * */
-    public function get_schedule_few_months($start_date, $end_date) {
+    public function get_schedule_few_months($start_date, $end_date)
+    {
 
     //SQL生成
 $sql=<<<END
@@ -96,7 +120,8 @@ END;
      *
      *
      * */
-    public function get_schedule($schedule_id) {
+    public function get_schedule($schedule_id)
+    {
 
 $sql=<<<END
     SELECT
