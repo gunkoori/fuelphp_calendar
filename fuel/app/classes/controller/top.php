@@ -122,6 +122,14 @@ class Controller_Top extends Controller
         //登録済みの予定を選択したとき取得する
         $select_schedule = $model_schedule->get_schedule($schedule_id);
 
+        //削除
+        $check_delete = isset($post_data['command']) ? $post_data['command']:null;//削除かどうかチェックする
+        if ($check_delete == 'delete') {
+            $delete = $model_schedule->delete($schedule_id);
+        }
+
+
+
         $view = View::forge('top/index');
 
 
