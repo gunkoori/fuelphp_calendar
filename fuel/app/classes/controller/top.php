@@ -76,8 +76,9 @@ class Controller_Top extends Controller
 
         //DBに登録した予定取得
         $model_schedule = new Model_Schedule();
-        $get_schedule = $model_schedule->get_schedule($start_date, $end_date);
+        $get_schedule = $model_schedule->get_schedule_few_months($start_date, $end_date);
 
+        //取得した予定を配列に格納
         $schedule = null;
         foreach ($get_schedule as $key => $value) {
             $start_date = $tool->explode_string($value['start_date']);
@@ -91,22 +92,34 @@ class Controller_Top extends Controller
             $schedule[$year][$month][$day][$value['schedule_id']]['detail'] = $value['schedule_detail'];
         }
 
-
+        //ajaxでPOSTされた内容
         $post_data = Input::post();
         $start_day = isset($post_data['start_date']) ? $post_data['start_date']:null;//2014-04-01
         $end_day = isset($post_data['end_date']) ? $post_data['end_date']:null;//2014-04-01
         $schedule_title = isset($post_data['schedule_title']) ? $post_data['schedule_title']:null;
         $schedule_detail = isset($post_data['schedule_detail']) ? $post_data['schedule_detail']:null;
+        $schedule_id = isset($post_data['schedule_id']) ? $post_data['schedule_id']:null;
 
+
+        //登録する
         if (isset($post_data)) {
             if(isset($post_data['start_date']) && isset($post_data['end_date']) && isset($post_data['schedule_title']) && isset($post_data['schedule_detail'])) {
                 $start_day = $post_data['start_date'];
                 $end_day = $post_data['end_date'];
                 $schedule_title = $post_data['schedule_title'];
                 $schedule_detail = $post_data['schedule_detail'];
-                $insert = $model_schedule->insert($start_day, $end_day, $schedule_title, $schedule_detail);
+                if (isset($schedule_id)) {
+                    $update = $model_schedule->update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id);
+                }
+                else {
+                    $update = $model_schedule->update($start_day, $end_day, $schedule_title, $schedule_detail, $schedule_id);
+                    $insert = $model_schedule->insert($start_day, $end_day, $schedule_title, $schedule_detail);
+                }
             }
         }
+
+        //登録済みの予定を選択したとき取得する
+        $select_schedule = $model_schedule->get_schedule($schedule_id);
 
         $view = View::forge('top/index');
 

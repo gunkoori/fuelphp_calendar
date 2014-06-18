@@ -58,6 +58,9 @@ $(function(){
          //バリデート
         var error_count = 0;
         var schedule_title = $('input[name="sch_title"]').val();
+        var schedule_id = $(this).data('scheduleid');
+
+
 
         if (schedule_title == '') {
             $('#error_msg_title').text('＊タイトルは入力必須');
@@ -125,6 +128,8 @@ $(function(){
                             'end_date': end_ymd,
                             'schedule_title' : schedule_title,
                             'schedule_detail': schedule_detail,
+                            'schedule_id' : schedule_id,
+                            'command'       : 'resister'
                             //'nk_token':token
                         }
                     }).done(function(data){
@@ -133,12 +138,12 @@ $(function(){
                         $('#schedule_edit').fadeOut();
                         $('#shadow').fadeOut();
 
-                        /*
+                       //エラーが... 
                         var schedule_array = JSON.parse(data); 
                         if (typeof schedule_array['error_msg'] != undefined) {
                             resister_flg = true;
                         }
-                        */
+                        
                     })/*.always(function(data){
                         if (resister_flg) {
                         //'保存'連打対応：flgをfalseに
@@ -328,6 +333,7 @@ $(function(){
         sessionSet();
         //data-scheduleidを取得
         var schedule_id = $(this).data('scheduleid');
+
         //div schedule_id内にschedule_idを書き込む
         $('#schedule_id').text(schedule_id);
 
@@ -336,24 +342,26 @@ $(function(){
         $(function(){
             $.ajax({
                 type: 'post',
-                url: 'cal_sql.php',
+                url: 'post/schedule',
                 data: {
                     'schedule_id' : schedule_id,
                     'command' : 'select',
-                    'nk_token' : token
-                }
+                    //'nk_token' : token
+                },
+                dataType : 'json',
             }).done(function(data){
-                var schedule_array = JSON.parse(data); 
+                var schedule_array = data;
+       console.log(schedule_array.schedule_id);
                 if (typeof schedule_array['error_msg'] == "undefined") {
-                    var start_date = new Date(schedule_array['schedule_start']);
-
+                    var start_date = new Date(schedule_array.start_date);
+                    
                     var start_y = start_date.getFullYear(),
                         start_m = start_date.getMonth() + 1,
                         start_d = start_date.getDate(),
                         start_h = start_date.getHours(),
                         start_i = start_date.getMinutes();
 
-                    var end_date = new Date(schedule_array['schedule_end']);
+                    var end_date = new Date(schedule_array.end_date);
                     var end_y = end_date.getFullYear(),
                         end_m = end_date.getMonth() + 1,
                         end_d = end_date.getDate(),
@@ -365,7 +373,7 @@ $(function(){
                     comboBoxMake(end_y, end_m, end_d, end_h, end_i, 'end_date');
                     //inputにタイトル、内容を書き込む
                     $('#schedule_title').val(schedule_array['schedule_title']);
-                    $('#schedule_plan').val(schedule_array['schedule_plan']);
+                    $('#schedule_detail').val(schedule_array['schedule_detail']);
                     } else {
                         alert(schedule_array['error_msg']);
                 }
@@ -377,5 +385,3 @@ $(function(){
         $('#shadow').fadeIn();
     })
 })
-
-

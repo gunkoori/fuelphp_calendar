@@ -12,8 +12,7 @@ Class Controller_Post extends Controller_Rest
 
 
      public function action_schedule($schedule_id = 1) {
-        $schedule_id = $_POST['schedule_id'];
-         Debug::dump($_POST);
+         $schedule_id = Input::post('schedule_id');
 
 $sql=<<<END
     SELECT
@@ -21,7 +20,7 @@ $sql=<<<END
      FROM
          cal_schedules
      WHERE
-         schedule_id="$schedule_id"
+         schedule_id=$schedule_id
 
      AND
          deleted_at
